@@ -26,3 +26,11 @@
   border: 1px solid black;
   font-size: medium;
 }
+
+.user-info {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.submit-btn {
+  height: 50px;
+}

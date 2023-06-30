@@ -11,9 +11,9 @@ class App extends Component {
           <Logo />
           <h1 className="App-title">Welcome to Kyruus</h1>
         </header>
-        <p className="App-intro">
+        <div className="App-intro">
           <Users />
-        </p>
+        </div>
       </div>
     );
   }

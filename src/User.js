@@ -10,8 +10,8 @@ class User extends Component {
     const { name, email } = this.props
     return (
       <div className="user-container">
-        <div>{name}</div>
-        <div>{email}</div>
+        <div className="user-info">{name}</div>
+        <div className="user-info">{email}</div>
       </div>
     )
   }
