@@ -7,11 +7,28 @@ class Users extends Component {
     super(props);
     this.state = {
       users: [],
+      newUsername: '',
+      newUserEmail: '',
     };
+
+    this.handleNameChange = this.handleNameChange.bind(this);
+    this.handleEmailChange = this.handleEmailChange.bind(this);
     this.createUser = this.createUser.bind(this);
   }
 
+  handleNameChange(event) {
+    this.setState({ newUsername: event.target.value })
+  }
+
+  handleEmailChange(event) {
+    this.setState({ newUserEmail: event.target.value })
+  }
+
   componentDidMount() {
+    this.getUsers()
+  }
+
+  componentDidUpdate() {
     this.getUsers()
   }
 
@@ -26,13 +43,12 @@ class Users extends Component {
   
   async createUser(event) {
     event.preventDefault();
-    console.log('createUser called!!!!')
     const createReq = {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        name: 'Olive Yorkipoo',
-        email: 'olive@treats.com',
+        name: this.state.newUsername,
+        email: this.state.newUserEmail,
       })
     }
     const response = await fetch('http://localhost:3001/users', createReq);
@@ -44,11 +60,14 @@ class Users extends Component {
   }
 
   render() {
-    const { users } = this.state;
+    const { users, newUsername, newUserEmail } = this.state;
     return (
       <div>
         <form onSubmit={this.createUser}>
-          <label>ADD USER</label>
+          <label>Name:</label>
+          <input type="text" value={newUsername} onChange={this.handleNameChange} />
+          <label>Email:</label>
+          <input type="text" value={newUserEmail} onChange={this.handleEmailChange} />
           <input type="submit" value="Submit" />
         </form>
         {users.map((user) => {
