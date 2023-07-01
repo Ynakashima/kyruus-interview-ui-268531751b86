@@ -9,11 +9,14 @@ class Users extends Component {
       users: [],
       newUsername: '',
       newUserEmail: '',
+      isEditing: false,
     };
 
     this.handleNameChange = this.handleNameChange.bind(this);
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.createUser = this.createUser.bind(this);
+    this.deleteUser = this.deleteUser.bind(this);
+    this.handleUserUpdate = this.handleUserUpdate.bind(this);
   }
 
   handleNameChange(event) {
@@ -28,10 +31,6 @@ class Users extends Component {
     this.getUsers()
   }
 
-  componentDidUpdate() {
-    this.getUsers()
-  }
-
   async getUsers() {
     const response = await fetch('http://localhost:3001/users');
     if (!response.ok) {
@@ -39,6 +38,7 @@ class Users extends Component {
     }
     const userList = await response.json();
     this.setState({ users: userList })
+    console.log(this.state.users)
   }
   
   async createUser(event) {
@@ -57,10 +57,55 @@ class Users extends Component {
     }
     const newUser = await response.json();
     console.log('New USER:::::', newUser)
+    this.setState({
+      newUsername: '',
+      newUserEmail: ''
+    })
+    await this.getUsers();
+  }
+
+  deleteUser(event, id) {
+    event.preventDefault();
+    console.log('user id to be deleted:  ', id)
+    fetch(`http://localhost:3001/users/${id}`, { method: 'DELETE' }).then(() => {
+      this.getUsers();
+    })
+    
+  }
+
+  async updateUser() {
+    const updateReq = {
+      method: 'PATCH',
+      headers: { 'Content-type': 'application/json'},
+      body: JSON.stringify({
+        name: 'Update 5',
+        email: 'UPDATED EMAIL'
+      })
+    }
+    const response = await fetch('http://localhost:3001/users/4', updateReq);
+    if (!response.ok) {
+      throw new Error ('There was a problem updating the user')
+    }
+
+    const updateResponse = await response.json();
+    console.log(updateResponse)
+    
+  }
+
+  handleOpenEdit() {
+    this.setState({ isEditing: true })
+  }
+
+  handleUserUpdate(event) {
+    event.preventDefault();
+    this.updateUser().then(() => {
+      this.getUsers()
+    })
+    this.setState({ isEditing: false })
   }
 
   render() {
-    const { users, newUsername, newUserEmail } = this.state;
+    const { users, newUsername, newUserEmail, isEditing } = this.state;
     return (
       <div>
         <form onSubmit={this.createUser}>
@@ -72,8 +117,22 @@ class Users extends Component {
         </form>
         {users.map((user) => {
           return (
-            <div>
-              <User name={user.name} email={user.email} />
+            <div key={user.id}>
+              <User
+                name={user.name}
+                email={user.email}
+              />
+              <button onClick={(event) => this.deleteUser(event, user.id)}>Delete</button>
+              <button onClick={() => this.handleOpenEdit}>Edit</button>
+              {isEditing &&
+              <form onSubmit={this.handleUserUpdate}>
+                <label>Name:</label>
+                <input type="text" value={newUsername} onChange={this.handleNameChange} />
+                <label>Email:</label>
+                <input type="text" value={newUserEmail} onChange={this.handleEmailChange} />
+                <input type="submit" value="Submit Change" />
+              </form>
+        }
             </div>
           )
         })}
