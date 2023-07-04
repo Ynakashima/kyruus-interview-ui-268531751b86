@@ -2,8 +2,8 @@
   "users": [
     {
       "id": "4",
-      "name": "Update 5",
-      "email": "UPDATED EMAIL"
+      "name": "foobar2",
+      "email": "something@email.com"
     },
     {
       "id": "5",
@@ -76,13 +76,8 @@
       "id": "jExAMjc"
     },
     {
-      "name": "House Cat",
-      "email": "cat@house.com",
-      "id": "jT9Vdoh"
-    },
-    {
-      "name": "Bread Dog",
-      "email": "bread@bakery.com",
+      "name": "The Bear",
+      "email": "bear@something.com",
       "id": "kf0i46c"
     }
   ]

@@ -10,6 +10,9 @@ class Users extends Component {
       newUsername: '',
       newUserEmail: '',
       isEditing: false,
+      userBeingEdited: '',
+      editedName: '',
+      editedEmail: '',
     };
 
     this.handleNameChange = this.handleNameChange.bind(this);
@@ -17,6 +20,10 @@ class Users extends Component {
     this.createUser = this.createUser.bind(this);
     this.deleteUser = this.deleteUser.bind(this);
     this.handleUserUpdate = this.handleUserUpdate.bind(this);
+    this.handleNameEdit = this.handleNameEdit.bind(this);
+    this.handleEmailEdit = this.handleEmailEdit.bind(this);
+    this.setEditing = this.setEditing.bind(this);
+    this.cancelEdit = this.cancelEdit.bind(this);
   }
 
   handleNameChange(event) {
@@ -25,6 +32,14 @@ class Users extends Component {
 
   handleEmailChange(event) {
     this.setState({ newUserEmail: event.target.value })
+  }
+
+  handleNameEdit(event) {
+    this.setState({ editedName: event.target.value })
+  }
+
+  handleEmailEdit(event) {
+    this.setState({ editedEmail: event.target.value })
   }
 
   componentDidMount() {
@@ -78,22 +93,17 @@ class Users extends Component {
       method: 'PATCH',
       headers: { 'Content-type': 'application/json'},
       body: JSON.stringify({
-        name: 'Update 5',
-        email: 'UPDATED EMAIL'
+        name: this.state.editedName,
+        email: this.state.editedEmail,
       })
     }
-    const response = await fetch('http://localhost:3001/users/4', updateReq);
+    const response = await fetch(`http://localhost:3001/users/${this.state.userBeingEdited}`, updateReq);
     if (!response.ok) {
       throw new Error ('There was a problem updating the user')
     }
 
     const updateResponse = await response.json();
     console.log(updateResponse)
-    
-  }
-
-  handleOpenEdit() {
-    this.setState({ isEditing: true })
   }
 
   handleUserUpdate(event) {
@@ -101,11 +111,33 @@ class Users extends Component {
     this.updateUser().then(() => {
       this.getUsers()
     })
-    this.setState({ isEditing: false })
+    this.setState({
+      isEditing: false,
+      editedName: '',
+      editedEmail: '',
+      userBeingEdited: '',
+    })
   }
 
+  setEditing(userID) {
+    this.setState({
+      isEditing: true,
+      userBeingEdited: userID,
+    })
+  }
+
+  cancelEdit() {
+    this.setState({
+      isEditing: false,
+      userBeingEdited: '',
+      editedName: '',
+      editedEmail: ''
+    })
+  }
+  
+
   render() {
-    const { users, newUsername, newUserEmail, isEditing } = this.state;
+    const { users, newUsername, newUserEmail, isEditing, editedName, editedEmail } = this.state;
     return (
       <div>
         <form onSubmit={this.createUser}>
@@ -115,6 +147,18 @@ class Users extends Component {
           <input type="text" value={newUserEmail} onChange={this.handleEmailChange} />
           <input type="submit" value="Submit" />
         </form>
+        {isEditing &&
+          <div>
+            <form onSubmit={this.handleUserUpdate}>
+              <label>Name Edit:</label>
+              <input type="text" value={editedName} onChange={this.handleNameEdit} />
+              <label>Email:</label>
+              <input type="text" value={editedEmail} onChange={this.handleEmailEdit} />
+              <input type="submit" value="Submit Change" />
+            </form>
+            <button onClick={this.cancelEdit}>Cancel</button>
+          </div>
+        }
         {users.map((user) => {
           return (
             <div key={user.id}>
@@ -123,16 +167,7 @@ class Users extends Component {
                 email={user.email}
               />
               <button onClick={(event) => this.deleteUser(event, user.id)}>Delete</button>
-              <button onClick={() => this.handleOpenEdit}>Edit</button>
-              {isEditing &&
-              <form onSubmit={this.handleUserUpdate}>
-                <label>Name:</label>
-                <input type="text" value={newUsername} onChange={this.handleNameChange} />
-                <label>Email:</label>
-                <input type="text" value={newUserEmail} onChange={this.handleEmailChange} />
-                <input type="submit" value="Submit Change" />
-              </form>
-        }
+              <button onClick={() => this.setEditing(user.id)}>Edit</button>
             </div>
           )
         })}
