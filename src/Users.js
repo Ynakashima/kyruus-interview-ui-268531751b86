@@ -119,10 +119,12 @@ class Users extends Component {
     })
   }
 
-  setEditing(userID) {
+  setEditing(userID, name, email) {
     this.setState({
       isEditing: true,
       userBeingEdited: userID,
+      editedName: name,
+      editedEmail: email
     })
   }
 
@@ -140,34 +142,42 @@ class Users extends Component {
     const { users, newUsername, newUserEmail, isEditing, editedName, editedEmail } = this.state;
     return (
       <div>
-        <form onSubmit={this.createUser}>
-          <label>Name:</label>
-          <input type="text" value={newUsername} onChange={this.handleNameChange} />
-          <label>Email:</label>
-          <input type="text" value={newUserEmail} onChange={this.handleEmailChange} />
-          <input type="submit" value="Submit" />
-        </form>
+        <div className="add-user-container">
+          <h5 className="add-user-title">Add New User</h5>
+          <form className="add-user-form" onSubmit={this.createUser}>
+            <label>Name:</label>
+            <input type="text" value={newUsername} onChange={this.handleNameChange} />
+            <label>Email:</label>
+            <input type="text" value={newUserEmail} onChange={this.handleEmailChange} />
+            <input type="submit" value="Submit" />
+          </form>
+        </div>
         {isEditing &&
-          <div>
-            <form onSubmit={this.handleUserUpdate}>
-              <label>Name Edit:</label>
-              <input type="text" value={editedName} onChange={this.handleNameEdit} />
-              <label>Email:</label>
-              <input type="text" value={editedEmail} onChange={this.handleEmailEdit} />
-              <input type="submit" value="Submit Change" />
-            </form>
-            <button onClick={this.cancelEdit}>Cancel</button>
+          <div className="add-user-container">
+            <h5 className="add-user-title">Edit User</h5>
+            <div className="edit-form-items">
+              <form className="add-user-form" onSubmit={this.handleUserUpdate}>
+                <label>Name:</label>
+                <input type="text" value={editedName} onChange={this.handleNameEdit} />
+                <label>Email:</label>
+                <input type="text" value={editedEmail} onChange={this.handleEmailEdit} />
+                <input type="submit" value="Submit" />
+              </form>
+              <button class="cancel-edit-btn" onClick={this.cancelEdit}>Cancel</button>
+            </div>
           </div>
         }
         {users.map((user) => {
           return (
-            <div key={user.id}>
+            <div className="user-container" key={user.id}>
               <User
                 name={user.name}
                 email={user.email}
               />
-              <button onClick={(event) => this.deleteUser(event, user.id)}>Delete</button>
-              <button onClick={() => this.setEditing(user.id)}>Edit</button>
+              <div className="user-btn-container">
+                <button onClick={(event) => this.deleteUser(event, user.id)}>Delete</button>
+                <button onClick={() => this.setEditing(user.id, user.name, user.email)}>Edit</button>
+              </div>
             </div>
           )
         })}

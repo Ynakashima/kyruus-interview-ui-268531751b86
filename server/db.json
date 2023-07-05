@@ -7,8 +7,8 @@
     },
     {
       "id": "5",
-      "name": "UPDATED NAME2",
-      "email": "UPDATED EMAIL"
+      "name": "UPDATED NAME4",
+      "email": "someUPDATED EMAIL"
     },
     {
       "id": "7",
@@ -76,7 +76,7 @@
       "id": "jExAMjc"
     },
     {
-      "name": "The Bear",
+      "name": "Bear2 Berenstein",
       "email": "bear@something.com",
       "id": "kf0i46c"
     }

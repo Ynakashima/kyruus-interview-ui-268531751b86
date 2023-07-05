@@ -9,9 +9,9 @@ class User extends Component {
   render() {
     const { name, email } = this.props
     return (
-      <div className="user-container">
-        <div className="user-info">{name}</div>
-        <div className="user-info">{email}</div>
+      <div className="user-info-container">
+        <div className="user-info">Name: {name}</div>
+        <div className="user-info">Email: {email}</div>
       </div>
     )
   }
