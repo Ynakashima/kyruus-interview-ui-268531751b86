@@ -2,10 +2,6 @@ import React, { Component } from 'react';
 import './App.css';
 
 class User extends Component {
-  // deleteUser = () => {
-  //   this.props.deleteUser
-  // }
-
   render() {
     const { name, email } = this.props
     return (

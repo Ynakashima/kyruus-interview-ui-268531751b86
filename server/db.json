@@ -1,11 +1,6 @@
 {
   "users": [
     {
-      "id": "4",
-      "name": "foobar2",
-      "email": "something@email.com"
-    },
-    {
       "id": "5",
       "name": "UPDATED NAME4",
       "email": "someUPDATED EMAIL"
@@ -52,7 +47,7 @@
     },
     {
       "id": "18",
-      "name": "Arnoldo Buckridge",
+      "name": "Arnoldo B",
       "email": "Norene_Kuhic@hotmail.com"
     },
     {
@@ -71,14 +66,14 @@
       "email": "Macey40@gmail.com"
     },
     {
-      "name": "some name",
-      "email": "name@example.com",
-      "id": "jExAMjc"
-    },
-    {
       "name": "Bear2 Berenstein",
       "email": "bear@something.com",
       "id": "kf0i46c"
+    },
+    {
+      "name": "David Rose",
+      "email": "david@schittscreek.com",
+      "id": "cSV224o"
     }
   ]
 }

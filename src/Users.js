@@ -71,7 +71,7 @@ class Users extends Component {
       throw new Error (`There was a problem creating a new user: ${response}`)
     }
     const newUser = await response.json();
-    console.log('New USER:::::', newUser)
+    console.log(newUser);
     this.setState({
       newUsername: '',
       newUserEmail: ''
@@ -163,7 +163,7 @@ class Users extends Component {
                 <input type="text" value={editedEmail} onChange={this.handleEmailEdit} />
                 <input type="submit" value="Submit" />
               </form>
-              <button class="cancel-edit-btn" onClick={this.cancelEdit}>Cancel</button>
+              <button className="cancel-edit-btn" onClick={this.cancelEdit}>Cancel</button>
             </div>
           </div>
         }

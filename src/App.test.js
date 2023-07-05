@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import TestRenderer from 'react-test-renderer';
+import { shallow } from 'enzyme';
 import Users from './Users';
 import User from './User';
 
@@ -9,10 +9,33 @@ it('renders without crashing', () => {
   ReactDOM.render(<User />, div);
 });
 
-const testRenderer = TestRenderer.create(<Users />);
-const testInstance = testRenderer.root;
+// describe('Users', () => {
+//   describe('componentDidMount', async () => {
+//     window.fetch = jest.fn().mockImplementation(() => ({
+//       status: 200,
+//       json: () => new Promise((resolve, reject) => {
+//         resolve({
+//           users: [
+//             {
+//               name: 'name1',
+//               email: 'email1'
+//             },
+//             {
+//               name: 'name2',
+//               email: 'email2'
+//             }
+//           ]
+//         })
+//       })
+//     }))
 
-console.log(testInstance)
+//     const renderedComponent = await shallow(<Users />)
+//     await renderedComponent.update()
+//     expect(renderedComponent.state('users').length).toEqual(2)
+//   })
+// })
+
+
 
 // let windowFetchSpy;
 

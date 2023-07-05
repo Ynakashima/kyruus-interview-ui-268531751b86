@@ -75,4 +75,6 @@ Tests are scaffolded using [Jest](https://facebook.github.io/jest/docs/en/gettin
 ### Extra Questions
 
 * If the endpoint required authentication, how would you consider implementing this?
+  * I could make a login page for username/password, which could then fetch a token upon a successful name/PW submit and keep it in localStorage and sessionStorage for navigating to private pages. I'll also consider how the app behaves if users attempt to navigate to private pages without a successful login, such as rerouting them to the login page.
 * What if we wanted the UI to update based on changes from the server?
+  * We have a couple options. We could write a function to do a fetch request for the user list at set intervals so that new updates from the server are rendered in the UI. We could also set up a web socket so that there is a persistent connection between the server and UI and so the new data from the server updates the UI's state, causing the UI to re-render.
